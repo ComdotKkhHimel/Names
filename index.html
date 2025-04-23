@@ -1,0 +1,245 @@
+<meta name='viewport' content='width=device-width, initial-scale=1'/><!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Random English Name Generator</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <!-- Tailwind CSS via jsDelivr (v2.2.19) -->
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <!-- Font Awesome for icons (v6.5.2) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.2/css/all.min.css">
+  <!-- Google Fonts (Inter) -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+    }
+    .btn-generate {
+      background: linear-gradient(90deg, #2563EB 0%, #6366F1 100%);
+      border: none;
+      color: #fff;
+      padding: 0.75rem 2.5rem;
+      border-radius: 0.5rem;
+      font-size: 1.25rem;
+      font-weight: 700;
+      letter-spacing: .05em;
+      transition: background 0.2s, box-shadow 0.2s;
+      box-shadow: 0 2px 6px rgba(60,72,210,.13);
+    }
+    .btn-generate:hover, .btn-generate:focus {
+      background: linear-gradient(90deg, #6366F1 0%, #2563EB 100%);
+      box-shadow: 0 4px 12px rgba(60,72,210,.18);
+      outline: none;
+    }
+    .btn-copy {
+      color: #6366F1;
+      background: none;
+      border: none;
+      transition: color 0.2s;
+      font-size: 1.2rem;
+    }
+    .btn-copy.copied {
+      color: #22C55E;
+      animation: bounce .25s;
+    }
+    @keyframes bounce {
+      0% { transform: scale(1);}
+      50% { transform: scale(1.15);}
+      100% { transform: scale(1);}
+    }
+    .fade-in {
+      animation: fade .4s;
+    }
+    @keyframes fade {
+      from {opacity: 0;}
+      to {opacity: 1;}
+    }
+  </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+  <div class="max-w-2xl mx-auto px-4 py-10">
+    <div class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+      <h1 class="text-3xl font-extrabold text-blue-700 mb-2 flex items-center gap-3">
+        <i class="fa-solid fa-dice"></i>
+        Random English Name Generator
+      </h1>
+      <p class="text-gray-600 mb-8">
+        Generate authentic, random English names instantly. Choose gender, quantity, and easily copy your results!
+      </p>
+      <form id="nameForm" class="flex flex-col md:flex-row md:items-end gap-4 mb-6">
+        <div>
+          <label class="block font-semibold text-gray-700 mb-2">Gender</label>
+          <select id="gender" class="border border-gray-300 rounded-lg py-2 px-3 focus:ring-blue-500 focus:border-blue-500 outline-none w-36">
+            <option value="any">Any</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+          </select>
+        </div>
+        <div>
+          <label class="block font-semibold text-gray-700 mb-2">Quantity</label>
+          <input id="quantity" type="number" min="1" max="100" value="10" class="border border-gray-300 rounded-lg py-2 px-3 w-24 focus:ring-blue-500 focus:border-blue-500 outline-none">
+        </div>
+        <button type="submit" class="btn-generate mt-4 md:mt-0 flex items-center gap-2">
+          <i class="fa-solid fa-bolt"></i>
+          Generate
+        </button>
+      </form>
+      <button id="copyAllBtn" class="inline-flex gap-2 items-center px-4 py-2 bg-blue-100 font-semibold rounded-lg text-blue-700 hover:bg-blue-200 transition mb-2" style="display:none;">
+        <i class="fa-regular fa-copy"></i> Copy All
+      </button>
+      <div id="copySuccess" class="hidden text-green-600 font-semibold pb-2 pt-1 text-sm">
+        <i class="fa-solid fa-circle-check"></i> Names copied!
+      </div>
+      <ul id="results" class="space-y-2 fade-in mt-4">
+        <!-- Names go here -->
+      </ul>
+    </div>
+    <footer class="text-xs text-gray-500 text-center">
+      &copy; 2024 Random English Name Generator
+    </footer>
+  </div>
+
+  <script>
+  // Simulated names.json file, referenced as a variable here.
+  const namesData = {
+    maleFirstNames: [
+      "James", "John", "Robert", "Michael", "William", "David", "Richard", "Joseph", "Thomas", "Charles",
+      "Christopher", "Daniel", "Matthew", "Anthony", "Donald", "Mark", "Paul", "Steven", "Andrew", "Kenneth",
+      "Joshua", "Kevin", "Brian", "George", "Edward", "Ronald", "Timothy", "Jason", "Jeffrey", "Ryan",
+      "Jacob", "Gary", "Nicholas", "Eric", "Stephen", "Jonathan", "Larry", "Justin", "Scott", "Brandon",
+      "Benjamin", "Samuel", "Frank", "Gregory", "Raymond", "Alexander", "Patrick", "Jack", "Dennis", "Jerry",
+      "Tyler", "Aaron", "Jose", "Henry", "Douglas", "Adam", "Peter", "Nathan", "Zachary", "Walter",
+      "Kyle", "Harold", "Carl", "Jeremy", "Keith", "Roger", "Gerald", "Ethan", "Arthur", "Terry",
+      "Christian", "Sean", "Lawrence", "Austin", "Joe", "Noah", "Jesse", "Albert", "Bryan", "Billy",
+      "Bruce", "Jordan", "Ralph", "Roy", "Wayne", "Eugene", "Alan", "Juan", "Louis", "Russell",
+      "Gabriel", "Randy", "Philip", "Harry", "Vincent", "Bobby", "Johnny", "Logan", "Dylan", "Howard",
+      "Caleb", "Oscar", "Max", "Ian", "Leonard", "Evan", "Fred", "Milton", "Clarence", "Victor",
+      "Martin", "Glenn", "Lee", "Derrick", "Jay", "Dean", "Travis", "Jared", "Luke", "Leon"
+      // ... (extend as needed)
+    ],
+    femaleFirstNames: [
+      "Jessica", "Mary", "Linda", "Ashley", "Elizabeth", "Jennifer", "Maria", "Susan", "Margaret",
+      "Dorothy", "Lisa", "Nancy", "Karen", "Betty", "Helen", "Sandra", "Donna", "Carol", "Ruth",
+      "Sharon", "Michelle", "Laura", "Sarah", "Kimberly", "Debra", "Jessica", "Amanda", "Emily",
+      "Melissa", "Angela", "Stephanie", "Rebecca", "Laura", "Shirley", "Cynthia", "Anna", "Virginia",
+      "Kathleen", "Pamela", "Martha", "Deborah", "Amanda", "Carolyn", "Christine", "Marie", "Janet",
+      "Frances", "Ann", "Joyce", "Diane", "Alice", "Julie", "Heather", "Teresa", "Doris", "Gloria",
+      "Evelyn", "Jean", "Cheryl", "Mildred", "Katherine", "Joan", "Ashley", "Judith", "Rose", "Janice"
+      // ... (extend as needed)
+    ],
+    lastNames: [
+      "Wright", "Young", "Brown", "Taylor", "Anderson", "Thomas", "Jackson", "White", "Harris", "Martin", 
+      "Thompson", "Garcia", "Martinez", "Robinson", "Clark", "Rodriguez", "Lewis", "Lee", "Walker", "Hall", 
+      "Allen", "Sanchez", "Wright", "King", "Scott", "Green", "Baker", "Adams", "Nelson", "Carter", "Mitchell", 
+      "Perez", "Roberts", "Turner", "Phillips", "Campbell", "Parker", "Evans", "Edwards", "Collins", "Stewart",
+      "Morris", "Rogers", "Reed", "Cook", "Morgan", "Bell", "Murphy", "Bailey", "Rivera", "Cooper", "Richardson",
+      "Cox", "Howard", "Ward", "Torres", "Peterson", "Gray", "Ramirez", "James", "Watson", "Brooks"
+      // ... (extend as needed)
+    ]
+  };
+
+  // ===== UI, Generation, and Copy Logic =====
+  const form = document.getElementById('nameForm');
+  const results = document.getElementById('results');
+  const copyAllBtn = document.getElementById('copyAllBtn');
+  const copySuccess = document.getElementById('copySuccess');
+  let lastGenerated = [];
+
+  function getRandom(arr) {
+    return arr[Math.floor(Math.random() * arr.length)];
+  }
+
+  function generateNames(gender, quantity) {
+    const names = [];
+    const male = namesData.maleFirstNames, female = namesData.femaleFirstNames, surname = namesData.lastNames;
+    for(let i=0;i<quantity;i++) {
+      let first;
+      if (gender === "male") first = getRandom(male);
+      else if (gender === "female") first = getRandom(female);
+      else first = Math.random() > 0.5 ? getRandom(male) : getRandom(female);
+      let last = getRandom(surname);
+      names.push(`${first} ${last}`);
+    }
+    return names;
+  }
+
+  function showNames(names) {
+    results.innerHTML = '';
+    lastGenerated = names;
+    if (names.length) {
+      copyAllBtn.style.display = '';
+    } else {
+      copyAllBtn.style.display = 'none';
+    }
+    names.forEach((name, idx) => {
+      const li = document.createElement('li');
+      li.className = 'flex items-center gap-2 bg-gray-100 rounded-lg px-4 py-2 shadow-sm';
+      li.innerHTML = `
+        <span class="text-lg font-medium text-gray-800 flex-1">${name}</span>
+        <button class="btn-copy group" aria-label="Copy Name" data-idx="${idx}" title="Copy name">
+          <i class="fa-regular fa-copy group-hover:hidden"></i>
+          <i class="fa-solid fa-check hidden group-hover:inline"></i>
+        </button>
+      `;
+      results.appendChild(li);
+    });
+  }
+
+  function temporarySuccess(elem) {
+    elem.classList.add('copied');
+    setTimeout(()=>elem.classList.remove('copied'), 800);
+  }
+
+  results.addEventListener('click', function(e){
+    if (e.target.closest('button.btn-copy')) {
+      const btn = e.target.closest('button.btn-copy');
+      const idx = parseInt(btn.getAttribute('data-idx'));
+      if (!isNaN(idx)) {
+        copyText(lastGenerated[idx]);
+        temporarySuccess(btn);
+      }
+    }
+  });
+
+  copyAllBtn.addEventListener('click', function() {
+    const str = lastGenerated.join('\n');
+    copyText(str);
+    // Animate message
+    copySuccess.classList.remove('hidden');
+    setTimeout(() => copySuccess.classList.add('hidden'), 1200);
+  });
+
+  function copyText(str) {
+    // Use Clipboard API if available
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(str);
+    } else { // fallback
+      const ta = document.createElement('textarea');
+      ta.value = str;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+    }
+  }
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    let gender = document.getElementById('gender').value;
+    let quantity = Number(document.getElementById('quantity').value);
+    if (isNaN(quantity) || quantity < 1) quantity = 1;
+    if (quantity > 100) quantity = 100;
+    const names = generateNames(gender, quantity);
+    showNames(names);
+    // Reset copy success
+    copySuccess.classList.add('hidden');
+  });
+
+  // Initial state
+  document.addEventListener('DOMContentLoaded', function() {
+    showNames([]);
+  });
+  </script>
+</body>
+</html>
+
