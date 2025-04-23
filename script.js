@@ -1,26 +1,19 @@
-// Name pools
-const maleNames = [
-  "James", "John", "Robert", "Michael", "William",
-  "David", "Richard", "Joseph", "Thomas", "Charles"
-];
+let selectedGender = "male";
+let nameData = null;
 
-const femaleNames = [
-  "Mary", "Patricia", "Jennifer", "Linda", "Elizabeth",
-  "Barbara", "Susan", "Jessica", "Sarah", "Karen"
-];
+// Load names from names.json
+fetch('names.json')
+  .then(response => response.json())
+  .then(data => {
+    nameData = data;
+  })
+  .catch(error => {
+    console.error("Failed to load name data:", error);
+    document.getElementById("nameDisplay").innerText = "Error loading names.";
+  });
 
-const lastNames = [
-  "Smith", "Johnson", "Brown", "Taylor", "Anderson",
-  "Thomas", "Jackson", "White", "Harris", "Martin"
-];
-
-let selectedGender = "male"; // Default gender
-
-// Function to select gender
 function selectGender(gender) {
   selectedGender = gender;
-
-  // Toggle active state for gender buttons
   document.getElementById("maleButton").classList.remove("active");
   document.getElementById("femaleButton").classList.remove("active");
 
@@ -31,15 +24,17 @@ function selectGender(gender) {
   }
 }
 
-// Function to generate a random name
 function generateName() {
-  const firstNamePool = selectedGender === "male" ? maleNames : femaleNames;
+  if (!nameData) {
+    document.getElementById("nameDisplay").innerText = "Names are still loading...";
+    return;
+  }
 
-  // Generate a random first name and last name
-  const firstName = firstNamePool[Math.floor(Math.random() * firstNamePool.length)];
+  const firstNames = selectedGender === "male" ? nameData.maleFirstNames : nameData.femaleFirstNames;
+  const lastNames = nameData.lastNames;
+
+  const firstName = firstNames[Math.floor(Math.random() * firstNames.length)];
   const lastName = lastNames[Math.floor(Math.random() * lastNames.length)];
 
-  // Display the generated name
-  const fullName = `${firstName} ${lastName}`;
-  document.getElementById("nameDisplay").innerText = fullName;
+  document.getElementById("nameDisplay").innerText = `${firstName} ${lastName}`;
 }
