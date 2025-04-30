@@ -1,57 +1,72 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Colorful Name Generator</title>
+  <title>Glowing Green Name Generator</title>
   <link rel="stylesheet" href="style.css">
   <style>
     body {
-      background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+      background: #121212;
+      color: #00ff00;
+      font-family: 'Courier New', monospace;
     }
 
     .container {
-      background: linear-gradient(145deg, #ffffff, #f3f3f3);
-      border-radius: 20px;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
-
-    .container:hover {
-      transform: scale(1.02);
-      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
-    }
-
-    button {
-      background: linear-gradient(to right, #667eea, #764ba2);
-      box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
-    }
-
-    button:hover {
-      background: linear-gradient(to right, #556cd6, #654ea3);
+      background: #1a1a1a;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+      border: 1px solid #00ff00;
     }
 
     h1 {
-      background: linear-gradient(to right, #ff758c, #ff7eb3);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      color: #00ff00;
+      text-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00;
+      font-weight: bold;
+    }
+
+    button {
+      background: #003300;
+      color: #00ff00;
+      border: 1px solid #00ff00;
+      text-shadow: 0 0 5px #00ff00;
+      box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+      transition: all 0.3s ease;
+    }
+
+    button:hover {
+      background: #006600;
+      box-shadow: 0 0 15px rgba(0, 255, 0, 0.8);
+      transform: translateY(-2px);
     }
 
     .output {
-      background: #fffbe6;
-      cursor: pointer;
+      background: #0a0a0a;
+      color: #00ff00;
+      border: 1px solid #00ff00;
+      text-shadow: 0 0 5px #00ff00;
+      box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
+      transition: all 0.3s ease;
     }
 
     .output:hover {
-      background: #fff3c0;
+      background: #111;
+      box-shadow: 0 0 15px rgba(0, 255, 0, 0.5);
+    }
+
+    .gender-select label {
+      color: #00cc00;
+      text-shadow: 0 0 5px rgba(0, 255, 0, 0.5);
+    }
+
+    .gender-select input {
+      accent-color: #00ff00;
     }
   </style>
 </head>
 <body>
-<canvas id="matrixCanvas"></canvas>
   <div class="container">
-    <h1>Random Name Generator</h1>
+    <h1>Glowing Green Name Generator</h1>
     <div class="gender-select">
       <label><input type="radio" name="gender" value="male" checked /> Male</label>
       <label><input type="radio" name="gender" value="female" /> Female</label>
