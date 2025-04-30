@@ -1,49 +1,81 @@
+/* style.css */
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
 
 body {
-  background-color: #000000;
-  color: #00FF00;
-  font-family: 'Courier New', Courier, monospace;
+  font-family: 'Share Tech Mono', monospace;
+  background: #000;
   margin: 0;
-  overflow: hidden;
-  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
 }
 
-h1, label, button, input, pre#nameResult {
-  color: #00FF00;
-  text-shadow: 0 0 5px #00FF00, 0 0 10px #00FF00;
+.container {
+  background: #0d0d0d;
+  border-radius: 10px;
+  padding: 40px;
+  max-width: 500px;
+  width: 100%;
+  text-align: center;
+  transition: 0.3s ease all;
 }
 
-button, input[type="number"] {
-  background-color: #111;
-  border: 1px solid #00FF00;
-  padding: 10px;
-  margin: 10px 0;
-  font-family: 'Courier New', Courier, monospace;
+h1 {
+  font-size: 32px;
+  font-weight: 400;
+  margin-bottom: 30px;
+  letter-spacing: 2px;
 }
 
-button:hover {
-  background-color: #003300;
+.gender-select {
+  display: flex;
+  justify-content: center;
+  gap: 25px;
+  margin-bottom: 30px;
 }
 
-label {
-  display: block;
-  margin-top: 10px;
+.gender-select label {
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
 }
 
-pre#nameResult {
-  border: 1px solid #00FF00;
-  padding: 10px;
-  background-color: #111;
-  max-height: 500px;
-  overflow-y: auto;
-  white-space: pre-wrap;
-  text-shadow: 0 0 5px #00FF00, 0 0 10px #00FF00;
+.gender-select input {
+  margin-right: 8px;
 }
 
-/* Canvas for background animation */
-#matrixCanvas {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: -1;
+button {
+  padding: 12px 30px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.3s ease;
+  letter-spacing: 1px;
+}
+
+.output {
+  margin-top: 30px;
+  border-radius: 10px;
+  padding: 20px;
+  font-size: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  min-height: 60px;
+}
+
+@media (max-width: 500px) {
+  .container {
+    padding: 30px 20px;
+  }
+
+  .gender-select {
+    flex-direction: column;
+    gap: 15px;
+  }
 }
