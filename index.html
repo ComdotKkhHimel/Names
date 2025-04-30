@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ComDotKKH // Hacker Name Generator</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="scanline"></div>
+    <div class="container">
+        <header>
+            <h1><span class="glow">>>_</span> ComDotKKH_Name_Generator.exe</h1>
+            <p id="statusMessage" class="typewriter">> Initializing system...</p>
+        </header>
+
+        <div class="controls">
+            <div class="gender-selection">
+                <h3>> Select Gender:</h3>
+                <div class="gender-options">
+                    <label>
+                        <input type="radio" name="gender" value="male" checked>
+                        <span class="radio-btn"><i class="fas fa-mars"></i> <span class="glow">MALE</span></span>
+                    </label>
+                    <label>
+                        <input type="radio" name="gender" value="female">
+                        <span class="radio-btn"><i class="fas fa-venus"></i> <span class="glow">FEMALE</span></span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="action-buttons">
+                <button id="generateBtn" class="btn"><i class="fas fa-terminal"></i> <span class="glow">GENERATE</span></button>
+                <button id="clearBtn" class="btn secondary"><i class="fas fa-trash"></i> <span class="glow">CLEAR ALL</span></button>
+            </div>
+        </div>
+
+        <div class="results-container">
+            <div class="results-header">
+                <h3>> Generated Identities: <span id="resultCount" class="glow">0</span></h3>
+            </div>
+            <div id="results" class="results"></div>
+        </div>
+
+        <footer>
+            <p class="glow">> System: Online | © 2023 ComDotKKH Cyber Systems</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
