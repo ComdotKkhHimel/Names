@@ -86,7 +86,7 @@ function generateName() {
         isGenerating = false;
         
         showNotification("> New identity generated");
-    }, 300); // Simulate processing delay
+    }, 300);
 }
 
 function displayName(name) {
@@ -110,7 +110,6 @@ function displayName(name) {
     nameCard.appendChild(copyBtn);
     resultsDiv.appendChild(nameCard);
     
-    // Scroll to the new name
     setTimeout(() => {
         nameCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }, 100);
