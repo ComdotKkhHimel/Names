@@ -1,15 +1,14 @@
 // Global variables
 let maleNames = [];
 let femaleNames = [];
+let unisexNames = [];
 let allNamesLoaded = false;
-let isGenerating = false;
-let generatedCount = 0;
+let currentName = "";
 
 // DOM elements
 const generateBtn = document.getElementById('generateBtn');
-const clearBtn = document.getElementById('clearBtn');
-const resultsDiv = document.getElementById('results');
-const resultCount = document.getElementById('resultCount');
+const copyBtn = document.getElementById('copyBtn');
+const currentResult = document.getElementById('currentResult');
 const statusMessage = document.getElementById('statusMessage');
 const genderRadios = document.querySelectorAll('input[name="gender"]');
 
@@ -19,12 +18,12 @@ function init() {
     
     Promise.all([
         loadNames('male_names.txt', 'male'),
-        loadNames('female_names.txt', 'female')
+        loadNames('female_names.txt', 'female'),
+        loadNames('unisex_names.txt', 'unisex')
     ])
     .then(() => {
         allNamesLoaded = true;
-        updateStatus(`> System ready: ${formatNumber(maleNames.length + femaleNames.length)} identities loaded`);
-        console.log(`Loaded ${maleNames.length} male and ${femaleNames.length} female names`);
+        updateStatus(`> System ready: ${formatNumber(maleNames.length + femaleNames.length + unisexNames.length)} names loaded`);
     })
     .catch(error => {
         console.error('Error loading names:', error);
@@ -33,7 +32,7 @@ function init() {
     });
 
     generateBtn.addEventListener('click', generateName);
-    clearBtn.addEventListener('click', clearResults);
+    copyBtn.addEventListener('click', copyCurrentName);
 }
 
 function loadNames(filename, gender) {
@@ -48,7 +47,8 @@ function loadNames(filename, gender) {
                 .map(name => name.trim());
             
             if (gender === 'male') maleNames = names;
-            else femaleNames = names;
+            else if (gender === 'female') femaleNames = names;
+            else unisexNames = names;
         });
 }
 
@@ -58,92 +58,79 @@ function generateName() {
         return;
     }
     
-    if (isGenerating) return;
-    isGenerating = true;
+    const selectedGender = document.querySelector('input[name="gender"]:checked').value;
+    let source, genderText;
+    
+    switch(selectedGender) {
+        case 'male':
+            source = maleNames;
+            genderText = "Male";
+            break;
+        case 'female':
+            source = femaleNames;
+            genderText = "Female";
+            break;
+        case 'unisex':
+            source = unisexNames;
+            genderText = "Unisex";
+            break;
+        case 'random':
+            // Randomly select between male, female and unisex
+            const randomChoice = Math.random();
+            if (randomChoice < 0.33) {
+                source = maleNames;
+                genderText = "Male";
+            } else if (randomChoice < 0.66) {
+                source = femaleNames;
+                genderText = "Female";
+            } else {
+                source = unisexNames;
+                genderText = "Unisex";
+            }
+            break;
+        default:
+            source = [];
+    }
+    
+    if (source.length === 0) {
+        showNotification(`> ERROR: No ${genderText.toLowerCase()} names available`, true);
+        return;
+    }
     
     generateBtn.disabled = true;
     generateBtn.innerHTML = '<i class="fas fa-cog fa-spin"></i> <span class="glow">PROCESSING...</span>';
     
-    const selectedGender = document.querySelector('input[name="gender"]:checked').value;
-    const source = selectedGender === 'male' ? maleNames : femaleNames;
-    
-    if (source.length === 0) {
-        showNotification(`> ERROR: No ${selectedGender} names available`, true);
-        generateBtn.disabled = false;
-        generateBtn.innerHTML = '<i class="fas fa-terminal"></i> <span class="glow">GENERATE</span>';
-        isGenerating = false;
-        return;
-    }
-    
     setTimeout(() => {
-        const randomName = source[Math.floor(Math.random() * source.length)];
-        displayName(randomName);
-        generatedCount++;
-        resultCount.textContent = generatedCount;
+        currentName = source[Math.floor(Math.random() * source.length)];
+        currentResult.textContent = currentName;
+        currentResult.classList.add("glow");
         
         generateBtn.disabled = false;
         generateBtn.innerHTML = '<i class="fas fa-terminal"></i> <span class="glow">GENERATE</span>';
-        isGenerating = false;
         
-        showNotification("> New identity generated");
+        showNotification(`> Generated ${genderText} name`);
     }, 300);
 }
 
-function displayName(name) {
-    const nameCard = document.createElement('div');
-    nameCard.className = 'name-card glow';
+function copyCurrentName() {
+    if (!currentName) {
+        showNotification("> ERROR: No name to copy", true);
+        return;
+    }
     
-    const nameText = document.createElement('div');
-    nameText.className = 'name-text';
-    nameText.textContent = name;
-    
-    const copyBtn = document.createElement('button');
-    copyBtn.className = 'copy-btn';
-    copyBtn.innerHTML = '<i class="fas fa-copy"></i>';
-    copyBtn.title = "Copy name";
-    
-    copyBtn.addEventListener('click', () => {
-        copyToClipboard(name, copyBtn);
-    });
-    
-    nameCard.appendChild(nameText);
-    nameCard.appendChild(copyBtn);
-    resultsDiv.appendChild(nameCard);
-    
-    setTimeout(() => {
-        nameCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-    }, 100);
-}
-
-function copyToClipboard(text, button) {
-    navigator.clipboard.writeText(text)
+    navigator.clipboard.writeText(currentName)
         .then(() => {
-            button.innerHTML = '<i class="fas fa-check"></i>';
-            button.classList.add('copied');
+            showNotification("> Copied to clipboard");
+            copyBtn.innerHTML = '<i class="fas fa-check"></i> <span class="glow">COPIED!</span>';
             
             setTimeout(() => {
-                button.innerHTML = '<i class="fas fa-copy"></i>';
-                button.classList.remove('copied');
+                copyBtn.innerHTML = '<i class="fas fa-copy"></i> <span class="glow">COPY</span>';
             }, 2000);
-            
-            showNotification("> Copied to clipboard");
         })
         .catch(err => {
             console.error('Copy failed:', err);
             showNotification("> ERROR: Clipboard access denied", true);
         });
-}
-
-function clearResults() {
-    if (resultsDiv.children.length === 0) {
-        showNotification("> No names to clear");
-        return;
-    }
-    
-    resultsDiv.innerHTML = '';
-    generatedCount = 0;
-    resultCount.textContent = '0';
-    showNotification("> Cleared all generated names");
 }
 
 function updateStatus(message, isError = false) {
