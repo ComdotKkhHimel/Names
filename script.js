@@ -2,35 +2,32 @@
 let maleNames = [];
 let femaleNames = [];
 let isLoading = true;
+let nameHistory = [];
 
 // DOM elements
 const generateBtn = document.getElementById('generateBtn');
 const copyBtn = document.getElementById('copyBtn');
 const nameResult = document.getElementById('nameResult');
+const historyList = document.getElementById('historyList');
 
 // Load names from text files
 async function loadNames() {
   try {
-    // Show loading state
     nameResult.textContent = "LOADING...";
     generateBtn.disabled = true;
     
-    // Fetch both files simultaneously
     const [maleResponse, femaleResponse] = await Promise.all([
       fetch('male_names.txt'),
       fetch('female_names.txt')
     ]);
     
-    // Check for errors
     if (!maleResponse.ok || !femaleResponse.ok) {
       throw new Error('Failed to load name files');
     }
     
-    // Get text content
     const maleText = await maleResponse.text();
     const femaleText = await femaleResponse.text();
     
-    // Process names
     maleNames = maleText.split('\n')
       .map(name => name.trim())
       .filter(name => name.length > 0);
@@ -39,12 +36,10 @@ async function loadNames() {
       .map(name => name.trim())
       .filter(name => name.length > 0);
     
-    // Check if we got valid names
     if (maleNames.length === 0 || femaleNames.length === 0) {
       throw new Error('Name files are empty');
     }
     
-    // Update UI
     isLoading = false;
     generateBtn.disabled = false;
     nameResult.textContent = "READY";
@@ -73,8 +68,20 @@ function generateName() {
       i++;
     } else {
       clearInterval(typing);
+      addToHistory(randomName, gender);
     }
   }, 50);
+}
+
+// Add to history log
+function addToHistory(name, gender) {
+  const timestamp = new Date().toLocaleTimeString();
+  nameHistory.unshift({ name, gender, timestamp });
+  
+  // Update history display
+  historyList.innerHTML = nameHistory.slice(0, 10).map(entry => 
+    `<div>[${entry.timestamp}] ${entry.gender.toUpperCase()}: ${entry.name}</div>`
+  ).join('');
 }
 
 // Copy to clipboard with feedback
@@ -104,14 +111,11 @@ async function copyToClipboard() {
 
 // Initialize the app
 function init() {
-  // Load names
   loadNames();
   
-  // Event listeners
   generateBtn.addEventListener('click', generateName);
   copyBtn.addEventListener('click', copyToClipboard);
   
-  // Keyboard accessibility
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Enter' && document.activeElement === generateBtn) {
       generateName();
@@ -121,7 +125,6 @@ function init() {
     }
   });
   
-  // Terminal startup effect
   const terminal = document.querySelector('.terminal');
   terminal.style.opacity = '0';
   terminal.style.transform = 'scale(0.9)';
