@@ -4,16 +4,15 @@ body {
   padding: 0;
   background-color: #000;
   font-family: 'Courier New', monospace;
-  min-height: 100vh;
   color: #0f0;
   overflow-x: hidden;
 }
 
-/* Scrollable Terminal Container */
-.terminal-scroll-container {
+/* Terminal Wrapper */
+.terminal-wrapper {
   display: flex;
   justify-content: center;
-  align-items: flex-start; /* Changed from center to flex-start */
+  align-items: flex-start;
   min-height: 100vh;
   padding: 20px;
   box-sizing: border-box;
@@ -28,19 +27,48 @@ body {
   box-shadow: 0 0 20px rgba(0, 255, 0, 0.5),
               inset 0 0 10px rgba(0, 255, 0, 0.3);
   position: relative;
-  max-height: 90vh; /* Limit height */
-  overflow: hidden; /* Hide overflow from terminal */
+  max-height: 90vh;
   display: flex;
   flex-direction: column;
+}
+
+.terminal-header {
+  background-color: #111;
+  padding: 8px 15px;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #0f0;
+  flex-shrink: 0;
+}
+
+.terminal-controls {
+  display: flex;
+  gap: 8px;
+}
+
+.control {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.close { background-color: #ff5f56; }
+.minimize { background-color: #ffbd2e; }
+.maximize { background-color: #27c93f; }
+
+.terminal-title {
+  margin-left: 15px;
+  color: #0f0;
+  text-shadow: 0 0 5px #0f0;
+  font-size: 14px;
 }
 
 .terminal-body {
   padding: 30px;
   position: relative;
-  overflow-y: auto; /* Make content scrollable */
+  overflow-y: auto;
   flex-grow: 1;
-  scrollbar-width: thin;
-  scrollbar-color: #0f0 #000;
 }
 
 /* Custom scrollbar */
@@ -58,28 +86,219 @@ body {
   border: 1px solid #000;
 }
 
-/* History Log Styles */
-.history-log {
+/* Brand Styling */
+h1 span.brand {
+  color: #00ff99;
+  text-shadow: 0 0 10px #00ff99,
+               0 0 20px rgba(0, 255, 153, 0.7),
+               0 0 30px rgba(0, 255, 153, 0.5);
+  animation: pulse 2s infinite alternate;
+}
+
+@keyframes pulse {
+  from { opacity: 0.8; }
+  to { opacity: 1; }
+}
+
+/* Text Effects */
+.glow {
+  color: #0f0;
+  text-shadow: 0 0 5px #0f0,
+               0 0 10px rgba(0, 255, 0, 0.7),
+               0 0 20px rgba(0, 255, 0, 0.5);
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 30px;
+  letter-spacing: 3px;
+  position: relative;
+  font-size: 2rem;
+  outline: none;
+}
+
+h1:focus {
+  text-shadow: 0 0 10px #0f0,
+               0 0 20px rgba(0, 255, 0, 0.7),
+               0 0 30px rgba(0, 255, 0, 0.5);
+}
+
+h1::after {
+  content: "|";
+  animation: blink 1s step-end infinite;
+  position: absolute;
+  margin-left: 5px;
+}
+
+/* Input Elements */
+.input-group {
+  margin-bottom: 30px;
+  border: none;
+}
+
+.radio-group {
+  display: flex;
+  gap: 30px;
+  margin-top: 15px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.radio-label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  position: relative;
+  padding-left: 30px;
+}
+
+.radio-custom {
+  position: absolute;
+  left: 0;
+  width: 18px;
+  height: 18px;
+  border: 2px solid #0f0;
+  border-radius: 50%;
+}
+
+.radio-label input {
+  position: absolute;
+  opacity: 0;
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+}
+
+.radio-label input:focus + .radio-custom {
+  box-shadow: 0 0 8px #0f0;
+}
+
+.radio-label input:checked + .radio-custom::before {
+  content: "";
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background-color: #0f0;
+  border-radius: 50%;
+  top: 4px;
+  left: 4px;
+  box-shadow: 0 0 5px #0f0;
+}
+
+/* Buttons */
+.glow-btn {
+  background: transparent;
+  border: 1px solid #0f0;
+  color: #0f0;
+  padding: 12px 25px;
+  font-family: 'Courier New', monospace;
+  font-size: 16px;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin: 10px 0;
+  transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+  text-shadow: 0 0 5px #0f0;
+}
+
+.glow-btn:hover, .glow-btn:focus {
+  background: rgba(0, 255, 0, 0.1);
+  box-shadow: 0 0 10px #0f0;
+  outline: none;
+}
+
+.glow-btn::before {
+  content: "";
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  right: -10px;
+  bottom: -10px;
+  background: linear-gradient(45deg, 
+    transparent, rgba(0, 255, 0, 0.1), transparent);
+  transform: rotate(45deg);
+  animation: shine 3s infinite;
+}
+
+/* Output Section */
+.output {
   margin-top: 40px;
   border: 1px dashed #0f0;
   padding: 20px;
   position: relative;
 }
 
-.log-header {
+.output-label {
   margin-bottom: 15px;
   font-size: 1.1rem;
 }
 
-.log-entries {
-  font-family: 'Courier New', monospace;
-  line-height: 1.6;
+.output-text {
+  font-size: 24px;
+  margin: 20px 0;
+  min-height: 36px;
+  font-weight: bold;
 }
 
-.log-entries div {
-  padding: 5px 0;
-  border-bottom: 1px dotted rgba(0, 255, 0, 0.2);
+/* Scanline Effect */
+.scanline {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  background: linear-gradient(
+    to bottom,
+    transparent 95%,
+    rgba(0, 255, 0, 0.05) 95%
+  );
+  background-size: 100% 5px;
+  animation: scan 5s linear infinite;
+  pointer-events: none;
 }
 
-/* Rest of your existing CSS remains the same */
-/* ... */
+/* Animations */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+@keyframes scan {
+  0% { top: -100%; }
+  100% { top: 100%; }
+}
+
+@keyframes shine {
+  0% { left: -100%; }
+  20% { left: 100%; }
+  100% { left: 100%; }
+}
+
+/* Focus Styles */
+*:focus {
+  outline: 2px solid #0f0;
+  outline-offset: 2px;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .terminal-body {
+    padding: 20px;
+  }
+  
+  .radio-group {
+    flex-direction: column;
+    gap: 15px;
+    align-items: flex-start;
+  }
+  
+  h1 {
+    font-size: 1.5rem;
+  }
+  
+  .output-text {
+    font-size: 1.3rem;
+  }
+  }
