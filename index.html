@@ -12,12 +12,11 @@
     <div class="container">
         <header>
             <h1><span class="glow">>>_</span> ComDotKKH</h1>
-            <p id="statusMessage" class="typewriter">> Initializing system...</p>
+            <p id="statusMessage" class="typewriter">> System ready</p>
         </header>
 
         <div class="controls">
             <div class="gender-selection">
-                <h3>> Select Gender:</h3>
                 <div class="gender-options">
                     <label>
                         <input type="radio" name="gender" value="male" checked>
@@ -27,24 +26,14 @@
                         <input type="radio" name="gender" value="female">
                         <span class="radio-btn"><i class="fas fa-venus"></i> <span class="glow">FEMALE</span></span>
                     </label>
-                    <label>
-                        <input type="radio" name="gender" value="unisex">
-                        <span class="radio-btn"><i class="fas fa-neuter"></i> <span class="glow">UNISEX</span></span>
-                    </label>
-                    <label>
-                        <input type="radio" name="gender" value="random">
-                        <span class="radio-btn"><i class="fas fa-random"></i> <span class="glow">RANDOM</span></span>
-                    </label>
                 </div>
             </div>
 
-            <div class="action-buttons">
-                <button id="generateBtn" class="btn"><i class="fas fa-terminal"></i> <span class="glow">GENERATE</span></button>
-            </div>
+            <button id="generateBtn" class="btn"><i class="fas fa-terminal"></i> <span class="glow">GENERATE</span></button>
         </div>
 
         <div class="result-display">
-            <div id="currentResult" class="current-result"></div>
+            <div id="currentName" class="name-display glow"></div>
             <button id="copyBtn" class="btn secondary copy-btn"><i class="fas fa-copy"></i> <span class="glow">COPY</span></button>
         </div>
 
