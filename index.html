@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="terminal-scroll-container">
+  <div class="terminal-wrapper">
     <div class="terminal" role="main" aria-labelledby="main-heading">
       <div class="terminal-header">
         <div class="terminal-controls" aria-hidden="true">
@@ -44,12 +44,6 @@
           <div class="output-label">> OUTPUT:</div>
           <div id="nameResult" class="output-text" role="status">READY</div>
           <button id="copyBtn" class="glow-btn" aria-label="Copy name to clipboard">COPY TO CLIPBOARD</button>
-        </div>
-        
-        <!-- Added more content to demonstrate scrolling -->
-        <div class="history-log glow">
-          <div class="log-header">> NAME GENERATION HISTORY:</div>
-          <div id="historyList" class="log-entries"></div>
         </div>
         
         <div class="scanline" aria-hidden="true"></div>
