@@ -8,44 +8,52 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="terminal" role="main" aria-labelledby="main-heading">
-    <div class="terminal-header">
-      <div class="terminal-controls" aria-hidden="true">
-        <span class="control close"></span>
-        <span class="control minimize"></span>
-        <span class="control maximize"></span>
-      </div>
-      <div class="terminal-title">comdotkkh.exe</div>
-    </div>
-    
-    <div class="terminal-body">
-      <h1 id="main-heading" class="glow" tabindex="0"><span class="brand">ComDotKKH</span> CYBER NAME GENERATOR</h1>
-      
-      <fieldset class="input-group">
-        <legend class="glow">> SELECT GENDER:</legend>
-        <div class="radio-group">
-          <label class="radio-label glow">
-            <input type="radio" name="gender" value="male" checked aria-checked="true">
-            <span class="radio-custom" aria-hidden="true"></span>
-            <span>MALE</span>
-          </label>
-          <label class="radio-label glow">
-            <input type="radio" name="gender" value="female" aria-checked="false">
-            <span class="radio-custom" aria-hidden="true"></span>
-            <span>FEMALE</span>
-          </label>
+  <div class="terminal-scroll-container">
+    <div class="terminal" role="main" aria-labelledby="main-heading">
+      <div class="terminal-header">
+        <div class="terminal-controls" aria-hidden="true">
+          <span class="control close"></span>
+          <span class="control minimize"></span>
+          <span class="control maximize"></span>
         </div>
-      </fieldset>
-      
-      <button id="generateBtn" class="glow-btn" aria-label="Generate random name">GENERATE</button>
-      
-      <div class="output glow" aria-live="polite">
-        <div class="output-label">> OUTPUT:</div>
-        <div id="nameResult" class="output-text" role="status">READY</div>
-        <button id="copyBtn" class="glow-btn" aria-label="Copy name to clipboard">COPY TO CLIPBOARD</button>
+        <div class="terminal-title">comdotkkh.exe</div>
       </div>
       
-      <div class="scanline" aria-hidden="true"></div>
+      <div class="terminal-body">
+        <h1 id="main-heading" class="glow" tabindex="0"><span class="brand">ComDotKKH</span> CYBER NAME GENERATOR</h1>
+        
+        <fieldset class="input-group">
+          <legend class="glow">> SELECT GENDER:</legend>
+          <div class="radio-group">
+            <label class="radio-label glow">
+              <input type="radio" name="gender" value="male" checked aria-checked="true">
+              <span class="radio-custom" aria-hidden="true"></span>
+              <span>MALE</span>
+            </label>
+            <label class="radio-label glow">
+              <input type="radio" name="gender" value="female" aria-checked="false">
+              <span class="radio-custom" aria-hidden="true"></span>
+              <span>FEMALE</span>
+            </label>
+          </div>
+        </fieldset>
+        
+        <button id="generateBtn" class="glow-btn" aria-label="Generate random name">GENERATE</button>
+        
+        <div class="output glow" aria-live="polite">
+          <div class="output-label">> OUTPUT:</div>
+          <div id="nameResult" class="output-text" role="status">READY</div>
+          <button id="copyBtn" class="glow-btn" aria-label="Copy name to clipboard">COPY TO CLIPBOARD</button>
+        </div>
+        
+        <!-- Added more content to demonstrate scrolling -->
+        <div class="history-log glow">
+          <div class="log-header">> NAME GENERATION HISTORY:</div>
+          <div id="historyList" class="log-entries"></div>
+        </div>
+        
+        <div class="scanline" aria-hidden="true"></div>
+      </div>
     </div>
   </div>
 
